@@ -89,8 +89,30 @@ async fn main() {
 	s.ok(
 		"city",
 		parse.city("charlotte", parseapi::CityOptions { country: Some("US".into()), ..Default::default() }).await,
-		|r| (r.name == "Charlotte").then_some(None).unwrap_or(Some("wrong city".into())),
+		|r| {
+			if r.name != "Charlotte" {
+				return Some("wrong city".into());
+			}
+			if !r.id.starts_with("city_") {
+				return Some("missing id".into());
+			}
+			None
+		},
 	);
+	let city_id = match parse
+		.city("charlotte", parseapi::CityOptions { country: Some("US".into()), ..Default::default() })
+		.await
+	{
+		Ok(c) => c.id,
+		Err(_) => String::new(),
+	};
+	if !city_id.is_empty() {
+		s.ok("city_id", parse.city_id(&city_id).await, |r| {
+			(r.id == city_id && r.name == "Charlotte")
+				.then_some(None)
+				.unwrap_or(Some("id mismatch".into()))
+		});
+	}
 	s.ok(
 		"city_search",
 		parse
@@ -141,6 +163,11 @@ async fn main() {
 	});
 	s.ok("currency_rate", parse.currency_rate("USD", "EUR").await, |r| {
 		(r.rate > 0.0 && r.rate < 10.0).then_some(None).unwrap_or(Some("bad rate".into()))
+	});
+	s.ok("language", parse.language("en").await, |r| {
+		(r.language == "en" && r.name == "English")
+			.then_some(None)
+			.unwrap_or(Some("wrong language".into()))
 	});
 	s.ok("timezone", parse.timezone("America/New_York", None).await, |r| {
 		(r.offset_minutes == -240 || r.offset_minutes == -300)

@@ -126,6 +126,7 @@ url_test!(
 	),
 	"/city/charlotte?state=NC"
 );
+url_test!(url_city_id, c => c.city_id("city_mb8mbqrkz8zb"), "/city/id/city_mb8mbqrkz8zb");
 url_test!(
 	url_city_search,
 	c => c.city_search(
@@ -169,6 +170,7 @@ url_test!(
 	c => c.currency_rate("USD", "EUR"),
 	"/currency/USD/EUR"
 );
+url_test!(url_language, c => c.language("en"), "/language/en");
 url_test!(
 	url_timezone_encodes_slash,
 	c => c.timezone("America/New_York", None),

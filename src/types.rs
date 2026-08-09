@@ -176,6 +176,7 @@ pub struct District {
 #[serde(default)]
 #[non_exhaustive]
 pub struct City {
+	pub id: String,
 	pub country: String,
 	pub state: Option<String>,
 	pub state_name: Option<String>,
@@ -462,6 +463,21 @@ pub struct Currency {
 	pub symbol: Option<String>,
 	pub symbol_native: Option<String>,
 	pub digits: Option<i32>,
+	#[serde(default, deserialize_with = "null_default")]
+	pub countries: Vec<String>,
+}
+
+/// One language by BCP 47 shortest code or ISO 639-3. Codes are lowercase.
+#[derive(Debug, Clone, Default, Deserialize)]
+#[serde(default)]
+#[non_exhaustive]
+pub struct Language {
+	pub language: String,
+	pub iso3: Option<String>,
+	pub name: String,
+	pub local_name: Option<String>,
+	pub script: Option<String>,
+	pub direction: String,
 	#[serde(default, deserialize_with = "null_default")]
 	pub countries: Vec<String>,
 }

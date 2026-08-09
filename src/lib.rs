@@ -399,6 +399,11 @@ impl Client {
 		self.get(&format!("/city/{}", seg(name)), query, None).await
 	}
 
+	/// Fetches a city by its minted parse id (`city_…`).
+	pub async fn city_id(&self, id: &str) -> Result<City> {
+		self.get(&format!("/city/id/{}", seg(id)), Query::new(), None).await
+	}
+
 	/// Searches cities by name prefix.
 	pub async fn city_search(&self, q: &str, opts: impl Into<Option<CitySearchOptions>>) -> Result<CitySearch> {
 		let opts = opts.into().unwrap_or_default();
@@ -485,6 +490,11 @@ impl Client {
 	/// Looks up a currency by ISO 4217 code.
 	pub async fn currency(&self, code: &str) -> Result<Currency> {
 		self.get(&format!("/currency/{}", seg(code)), Query::new(), None).await
+	}
+
+	/// Looks up a language by BCP 47 shortest code or ISO 639-3.
+	pub async fn language(&self, code: &str) -> Result<Language> {
+		self.get(&format!("/language/{}", seg(code)), Query::new(), None).await
 	}
 
 	/// Returns the daily official reference rate for a currency pair.
