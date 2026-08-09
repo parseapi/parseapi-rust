@@ -1,0 +1,22 @@
+[package]
+name = "parseapi"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+description = "Official parseAPI client for Rust. One key, minimal JSON, fast."
+license = "MIT"
+homepage = "https://parseapi.com"
+documentation = "https://parseapi.com/docs"
+repository = "https://github.com/parseapi/parseapi-rust"
+keywords = ["parseapi", "geolocation", "email", "phone", "postal"]
+categories = ["api-bindings", "web-programming::http-client"]
+
+[dependencies]
+percent-encoding = "2"
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["time"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time"] }
