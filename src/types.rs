@@ -507,7 +507,7 @@ pub struct TimezoneNextDst {
 #[serde(default)]
 #[non_exhaustive]
 pub struct Timezone {
-	pub id: String,
+	pub timezone: String,
 	pub abbreviation: String,
 	pub offset: String,
 	pub offset_minutes: i32,
