@@ -1,6 +1,6 @@
 use parseapi::{
 	CityOptions, CitySearchOptions, Client, DeepOptions, Error, HolidayOptions, PhoneOptions,
-	PostalNearbyOptions, WeatherOptions,
+	PostalNearbyOptions,
 };
 use std::collections::HashMap;
 use std::io::{Read, Write};
@@ -198,12 +198,8 @@ url_test!(
 );
 url_test!(
 	url_weather,
-	c => c.weather(
-		40.7128,
-		-74.006,
-		WeatherOptions { unit: Some("imperial".into()), ..Default::default() }
-	),
-	"/weather?lat=40.7128&lon=-74.006&unit=imperial"
+	c => c.weather(40.7128, -74.006, DeepOptions { deep: true }),
+	"/weather?lat=40.7128&lon=-74.006&deep=true"
 );
 url_test!(url_emoji, c => c.emoji("rocket"), "/emoji/rocket");
 url_test!(

@@ -145,13 +145,6 @@ pub struct HolidayOptions {
 	pub year: Option<i32>,
 }
 
-/// Tunes a weather lookup. Unit "imperial" flips wind, pressure, and distance.
-#[derive(Debug, Clone, Default)]
-pub struct WeatherOptions {
-	pub unit: Option<String>,
-	pub deep: bool,
-}
-
 /// Caps the result count.
 #[derive(Debug, Clone, Copy, Default)]
 pub struct EmojiSearchOptions {
@@ -541,14 +534,13 @@ impl Client {
 		self.get("/point", query, None).await
 	}
 
-	/// Returns current conditions at a point from the nearest official station.
-	pub async fn weather(&self, lat: f64, lon: f64, opts: impl Into<Option<WeatherOptions>>) -> Result<Weather> {
-		let opts = opts.into().unwrap_or_default();
+	/// Returns current conditions at a point from the nearest official
+	/// station. Every measurement ships metric and imperial side by side.
+	pub async fn weather(&self, lat: f64, lon: f64, opts: impl Into<Option<DeepOptions>>) -> Result<Weather> {
 		let mut query = Query::new();
 		push(&mut query, "lat", Some(lat.to_string()));
 		push(&mut query, "lon", Some(lon.to_string()));
-		push(&mut query, "unit", opts.unit);
-		push_deep(&mut query, opts.deep);
+		push_deep(&mut query, opts.into().is_some_and(|o| o.deep));
 		self.get("/weather", query, None).await
 	}
 
