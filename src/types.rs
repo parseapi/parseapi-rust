@@ -21,9 +21,9 @@ pub struct IpDeep {
 	pub state: Option<String>,
 	pub city: Option<String>,
 	pub registry: Option<String>,
-	pub is_datacenter: Option<bool>,
-	pub is_relay: Option<bool>,
-	pub is_tor: Option<bool>,
+	pub datacenter: Option<bool>,
+	pub relay: Option<bool>,
+	pub tor: Option<bool>,
 	pub provider: Option<String>,
 }
 
@@ -387,7 +387,7 @@ pub struct UseragentDeviceDeep {
 	pub brand: Option<String>,
 	pub model: Option<String>,
 	pub cpu: Option<String>,
-	pub is_touchscreen: Option<bool>,
+	pub touchscreen: Option<bool>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
@@ -435,8 +435,8 @@ pub struct UseragentDeep {
 	pub os: Option<UseragentOsDeep>,
 	pub browser: Option<UseragentBrowserDeep>,
 	pub engine: Option<UseragentEngineDeep>,
-	pub is_headless: Option<bool>,
-	pub is_ai: Option<bool>,
+	pub headless: Option<bool>,
+	pub ai: Option<bool>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
@@ -447,8 +447,8 @@ pub struct Useragent {
 	pub device: Option<String>,
 	pub os: Option<String>,
 	pub browser: Option<String>,
-	pub is_bot: bool,
-	pub is_mobile: bool,
+	pub bot: bool,
+	pub mobile: bool,
 	pub deep: Option<UseragentDeep>,
 }
 
@@ -591,7 +591,7 @@ pub struct WeatherForecastPeriod {
 	pub name: String,
 	pub start: String,
 	pub end: String,
-	pub day: bool,
+	pub daytime: bool,
 	pub temp: Option<f64>,
 	pub temp_f: Option<f64>,
 	pub precip: Option<f64>,

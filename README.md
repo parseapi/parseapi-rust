@@ -58,7 +58,7 @@ Pass `DeepOptions { deep: true }` to include the nested `deep` struct with riche
 
 ```rust
 let ip = parse.ip("52.94.76.10", DeepOptions { deep: true }).await?;
-ip.deep.unwrap().is_datacenter; // Some(true)
+ip.deep.unwrap().datacenter; // Some(true)
 ```
 
 ## Errors
