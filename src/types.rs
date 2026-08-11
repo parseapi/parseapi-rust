@@ -523,6 +523,9 @@ pub struct Holiday {
 	pub date: String,
 	pub name: String,
 	pub local_name: Option<String>,
+	/// "public" for an official day off, "observance" for cultural days.
+	#[serde(rename = "type")]
+	pub kind: String,
 	#[serde(default, deserialize_with = "null_default")]
 	pub regions: Vec<String>,
 	pub substitute: bool,
