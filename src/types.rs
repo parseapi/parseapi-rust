@@ -45,7 +45,6 @@ pub struct Ip {
 #[non_exhaustive]
 pub struct Continent {
 	pub continent: String,
-	pub numeric: i32,
 	pub name: String,
 	pub region: String,
 	pub subregion: String,
@@ -81,6 +80,7 @@ pub struct Country {
 	pub name: String,
 	pub full_name: Option<String>,
 	pub local_name: Option<String>,
+	pub demonym: Option<String>,
 	pub capital: Option<String>,
 	pub continent: String,
 	pub region: Option<String>,
@@ -91,12 +91,11 @@ pub struct Country {
 	pub currency_name: Option<String>,
 	pub currency_symbol: Option<String>,
 	pub tld: Option<String>,
-	pub flag_emoji: Option<String>,
+	pub emoji: Option<String>,
 	#[serde(default, deserialize_with = "null_default")]
 	pub languages: Vec<String>,
 	#[serde(default, deserialize_with = "null_default")]
 	pub borders: Vec<String>,
-	pub demonym: Option<String>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
@@ -122,12 +121,13 @@ pub struct CountryStates {
 #[serde(default)]
 #[non_exhaustive]
 pub struct State {
-	pub country: String,
 	pub state: String,
 	pub name: String,
 	pub local_name: Option<String>,
 	#[serde(rename = "type")]
 	pub kind: Option<String>,
+	pub country: String,
+	pub country_name: Option<String>,
 	pub latitude: Option<f64>,
 	pub longitude: Option<f64>,
 	pub population: Option<i64>,
@@ -149,8 +149,10 @@ pub struct StateDistrictItem {
 #[serde(default)]
 #[non_exhaustive]
 pub struct StateDistricts {
-	pub country: String,
 	pub state: String,
+	pub state_name: Option<String>,
+	pub country: String,
+	pub country_name: Option<String>,
 	#[serde(default, deserialize_with = "null_default")]
 	pub districts: Vec<StateDistrictItem>,
 }
@@ -159,33 +161,36 @@ pub struct StateDistricts {
 #[serde(default)]
 #[non_exhaustive]
 pub struct District {
-	pub country: String,
-	pub state: Option<String>,
 	pub district: String,
 	pub name: String,
 	#[serde(rename = "type")]
 	pub kind: Option<String>,
-	pub population: Option<i64>,
+	pub state: Option<String>,
+	pub state_name: Option<String>,
+	pub country: String,
+	pub country_name: Option<String>,
 	pub latitude: Option<f64>,
 	pub longitude: Option<f64>,
-	pub area_land: Option<f64>,
-	pub area_water: Option<f64>,
+	pub population: Option<i64>,
+	pub land_area: Option<f64>,
+	pub water_area: Option<f64>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
 #[serde(default)]
 #[non_exhaustive]
 pub struct City {
-	pub id: String,
-	pub country: String,
-	pub state: Option<String>,
-	pub state_name: Option<String>,
 	pub name: String,
 	pub local_name: Option<String>,
+	pub state: Option<String>,
+	pub state_name: Option<String>,
+	pub country: String,
 	pub latitude: Option<f64>,
 	pub longitude: Option<f64>,
 	pub population: Option<i64>,
 	pub timezone: Option<String>,
+	/// Minted parse id (`city_` + 12 chars). Stable pin via `/city/id/{id}`.
+	pub id: String,
 }
 
 /// A [`City`] plus the distance from the query point.
@@ -217,20 +222,20 @@ pub struct Postal {
 	pub postal: String,
 	pub city: Option<String>,
 	pub city_local: Option<String>,
-	pub state: Option<String>,
-	pub state_name: Option<String>,
-	pub state_name_local: Option<String>,
 	pub district: Option<String>,
 	pub district_name: Option<String>,
 	pub district_name_local: Option<String>,
+	pub state: Option<String>,
+	pub state_name: Option<String>,
+	pub state_name_local: Option<String>,
 	pub country: String,
 	pub latitude: Option<f64>,
 	pub longitude: Option<f64>,
-	pub timezone: Option<String>,
-	pub currency: Option<String>,
 	pub elevation: Option<f64>,
 	pub elevation_ft: Option<f64>,
 	pub population: Option<i64>,
+	pub timezone: Option<String>,
+	pub currency: Option<String>,
 	#[serde(default, deserialize_with = "null_default")]
 	pub neighbors: Vec<String>,
 }
@@ -251,8 +256,8 @@ pub struct PostalNearbyItem {
 #[serde(default)]
 #[non_exhaustive]
 pub struct PostalNearby {
-	pub country: String,
 	pub postal: String,
+	pub country: String,
 	pub radius: f64,
 	pub unit: String,
 	#[serde(default, deserialize_with = "null_default")]
@@ -508,11 +513,11 @@ pub struct TimezoneNextDst {
 #[non_exhaustive]
 pub struct Timezone {
 	pub timezone: String,
+	pub name: Option<String>,
 	pub abbreviation: String,
 	pub offset: String,
 	pub offset_minutes: i32,
 	pub dst: bool,
-	pub name: Option<String>,
 	pub next_dst: Option<TimezoneNextDst>,
 }
 
@@ -575,15 +580,15 @@ pub struct PointDeep {
 pub struct Point {
 	pub latitude: f64,
 	pub longitude: f64,
-	pub elevation: Option<f64>,
-	pub elevation_ft: Option<f64>,
-	pub resolution: Option<f64>,
 	pub country: Option<String>,
 	pub country_name: Option<String>,
 	pub state: Option<String>,
 	pub state_name: Option<String>,
 	pub district: Option<String>,
 	pub district_name: Option<String>,
+	pub elevation: Option<f64>,
+	pub elevation_ft: Option<f64>,
+	pub resolution: Option<f64>,
 	pub deep: Option<PointDeep>,
 }
 
@@ -592,15 +597,18 @@ pub struct Point {
 #[non_exhaustive]
 pub struct WeatherForecastPeriod {
 	pub name: String,
-	pub start: String,
-	pub end: String,
-	pub daytime: bool,
-	pub temp: Option<f64>,
-	pub temp_f: Option<f64>,
-	pub precip: Option<f64>,
-	pub wind: Option<String>,
-	pub wind_dir: Option<String>,
-	pub conditions: Option<String>,
+	pub start: Option<String>,
+	pub end: Option<String>,
+	pub daytime: Option<bool>,
+	pub temperature: Option<f64>,
+	pub temperature_f: Option<f64>,
+	pub precipitation_chance: Option<f64>,
+	pub wind_speed: Option<f64>,
+	pub wind_speed_mph: Option<f64>,
+	pub wind_direction: Option<f64>,
+	pub condition: Option<String>,
+	pub condition_name: Option<String>,
+	pub condition_emoji: Option<String>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
@@ -631,24 +639,32 @@ pub struct WeatherDeep {
 pub struct Weather {
 	pub latitude: f64,
 	pub longitude: f64,
-	pub temp: Option<f64>,
-	pub temp_f: Option<f64>,
+	pub temperature: Option<f64>,
+	pub temperature_f: Option<f64>,
 	pub feels_like: Option<f64>,
 	pub feels_like_f: Option<f64>,
+	pub dewpoint: Option<f64>,
+	pub dewpoint_f: Option<f64>,
 	pub humidity: Option<f64>,
 	pub wind_speed: Option<f64>,
 	pub wind_speed_mph: Option<f64>,
-	pub wind_dir: Option<serde_json::Value>,
+	pub wind_gust: Option<f64>,
+	pub wind_gust_mph: Option<f64>,
+	pub wind_direction: Option<f64>,
 	pub pressure: Option<f64>,
 	pub pressure_inhg: Option<f64>,
-	pub conditions: Option<String>,
-	pub conditions_name: Option<String>,
+	pub visibility: Option<f64>,
+	pub visibility_mi: Option<f64>,
+	pub condition: Option<String>,
+	pub condition_name: Option<String>,
+	pub condition_emoji: Option<String>,
 	pub observed_at: Option<String>,
 	pub station: String,
 	pub station_name: Option<String>,
 	pub station_distance: f64,
 	pub station_distance_mi: f64,
 	pub source: String,
+	pub source_name: Option<String>,
 	pub deep: Option<WeatherDeep>,
 }
 
