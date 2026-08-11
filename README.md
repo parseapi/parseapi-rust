@@ -19,7 +19,7 @@ One async method per endpoint, named after the route. Every response is a typed 
 
 ```rust
 parse.ip("8.8.8.8", None).await?;
-parse.ip_me(None).await?;
+parse.ip_self(None).await?;
 parse.email("hello@gmail.com", None).await?;
 parse.phone("+14155552671", None).await?;
 parse.postal("28202", "US").await?;

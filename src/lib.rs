@@ -334,10 +334,10 @@ impl Client {
 	}
 
 	/// Looks up the caller's IP.
-	pub async fn ip_me(&self, opts: impl Into<Option<DeepOptions>>) -> Result<Ip> {
+	pub async fn ip_self(&self, opts: impl Into<Option<DeepOptions>>) -> Result<Ip> {
 		let mut query = Query::new();
 		push_deep(&mut query, opts.into().is_some_and(|o| o.deep));
-		self.get("/ip/me", query, None).await
+		self.get("/ip", query, None).await
 	}
 
 	/// Looks up a continent by code (NA, EU, ...).

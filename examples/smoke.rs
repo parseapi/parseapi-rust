@@ -62,7 +62,7 @@ async fn main() {
 	s.ok("ip", parse.ip("8.8.8.8", None).await, |r| {
 		(r.ip == "8.8.8.8").then_some(None).unwrap_or(Some("wrong ip".into()))
 	});
-	s.ok("ip_me", parse.ip_me(None).await, |r| {
+	s.ok("ip_self", parse.ip_self(None).await, |r| {
 		(!r.ip.is_empty()).then_some(None).unwrap_or(Some("no ip".into()))
 	});
 	s.ok("continent", parse.continent("NA").await, |r| {

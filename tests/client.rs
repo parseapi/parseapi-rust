@@ -97,7 +97,7 @@ macro_rules! url_test {
 }
 
 url_test!(url_ip, c => c.ip("8.8.8.8", None), "/ip/8.8.8.8");
-url_test!(url_ip_me, c => c.ip_me(None), "/ip/me");
+url_test!(url_ip_self, c => c.ip_self(None), "/ip");
 url_test!(
 	url_ip_deep,
 	c => c.ip("8.8.8.8", DeepOptions { deep: true }),
