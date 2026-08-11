@@ -545,8 +545,8 @@ impl Client {
 	}
 
 	/// Resolves an emoji by character, shortcode, or name.
-	pub async fn emoji(&self, query: &str) -> Result<Emoji> {
-		self.get(&format!("/emoji/{}", seg(query)), Query::new(), None).await
+	pub async fn emoji(&self, emoji: &str) -> Result<Emoji> {
+		self.get(&format!("/emoji/{}", seg(emoji)), Query::new(), None).await
 	}
 
 	/// Searches emoji by keyword.
