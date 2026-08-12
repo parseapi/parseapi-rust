@@ -7,7 +7,7 @@ description = "Official parseAPI client for Rust. One key, minimal JSON, fast."
 license = "MIT"
 homepage = "https://parseapi.com"
 documentation = "https://parseapi.com/docs"
-repository = "https://github.com/parseapi/parseapi-rust"
+repository = "https://github.com/parseapi/rust"
 keywords = ["parseapi", "geolocation", "email", "phone", "postal"]
 categories = ["api-bindings", "web-programming::http-client"]
 
