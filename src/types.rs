@@ -84,6 +84,8 @@ pub struct Country {
 	pub local_name: Option<String>,
 	pub demonym: Option<String>,
 	pub capital: Option<String>,
+	pub capital_lat: Option<f64>,
+	pub capital_lon: Option<f64>,
 	pub continent: String,
 	pub region: Option<String>,
 	pub subregion: Option<String>,
