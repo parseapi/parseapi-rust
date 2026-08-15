@@ -59,6 +59,8 @@ pub struct Continent {
 pub struct ContinentCountryItem {
 	pub country: String,
 	pub name: String,
+	pub emoji: Option<String>,
+	pub calling_code: Option<String>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
@@ -91,6 +93,7 @@ pub struct Country {
 	pub currency_name: Option<String>,
 	pub currency_symbol: Option<String>,
 	pub tld: Option<String>,
+	pub calling_code: Option<String>,
 	pub emoji: Option<String>,
 	#[serde(default, deserialize_with = "null_default")]
 	pub languages: Vec<String>,
