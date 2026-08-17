@@ -145,7 +145,7 @@ async fn main() {
 		r.valid.then_some(None).unwrap_or(Some("not valid".into()))
 	});
 	s.ok("phone", parse.phone("+14155552671", None).await, |r| {
-		(r.e164.as_deref() == Some("+14155552671")).then_some(None).unwrap_or(Some("wrong e164".into()))
+		(r.phone.as_deref() == Some("+14155552671")).then_some(None).unwrap_or(Some("wrong phone".into()))
 	});
 	s.ok("domain", parse.domain("gmail.com", None).await, |r| {
 		(!r.available).then_some(None).unwrap_or(Some("gmail available?".into()))

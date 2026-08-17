@@ -315,15 +315,18 @@ pub struct Email {
 pub struct PhoneDeep {
 	#[serde(rename = "type")]
 	pub kind: Option<String>,
-	pub region: Option<String>,
+	pub carrier: Option<String>,
+	pub city: Option<String>,
+	pub state: Option<String>,
+	pub state_name: Option<String>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
 #[serde(default)]
 #[non_exhaustive]
 pub struct Phone {
+	pub phone: Option<String>,
 	pub valid: bool,
-	pub e164: Option<String>,
 	pub country: Option<String>,
 	pub national: Option<String>,
 	pub international: Option<String>,
