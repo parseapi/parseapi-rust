@@ -316,6 +316,8 @@ pub struct PhoneDeep {
 	#[serde(rename = "type")]
 	pub kind: Option<String>,
 	pub carrier: Option<String>,
+	/// Carrier is a known burner number app. None when carrier is unknown.
+	pub burner: Option<bool>,
 	pub city: Option<String>,
 	pub state: Option<String>,
 	pub state_name: Option<String>,
