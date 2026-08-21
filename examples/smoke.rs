@@ -169,6 +169,11 @@ async fn main() {
 			.then_some(None)
 			.unwrap_or(Some("wrong language".into()))
 	});
+	s.ok("name", parse.name("BILLY O'SHALL").await, |r| {
+		(r.name == "Billy O'Shall" && r.valid && r.gender.as_deref() == Some("male"))
+			.then_some(None)
+			.unwrap_or(Some("wrong name".into()))
+	});
 	s.ok("timezone", parse.timezone("America/New_York", None).await, |r| {
 		(r.offset_minutes == -240 || r.offset_minutes == -300)
 			.then_some(None)

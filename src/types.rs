@@ -497,6 +497,23 @@ pub struct Language {
 	pub countries: Vec<String>,
 }
 
+/// A parsed person name. Junk input returns valid false, never an error.
+/// Gender comes from dictionary data and is None when the data does not decide.
+#[derive(Debug, Clone, Default, Deserialize)]
+#[serde(default)]
+#[non_exhaustive]
+pub struct Name {
+	pub name: String,
+	pub valid: bool,
+	pub prefix: Option<String>,
+	pub first: Option<String>,
+	pub middle: Option<String>,
+	pub last: Option<String>,
+	pub suffix: Option<String>,
+	pub gender: Option<String>,
+	pub salutation: Option<String>,
+}
+
 #[derive(Debug, Clone, Default, Deserialize)]
 #[serde(default)]
 #[non_exhaustive]

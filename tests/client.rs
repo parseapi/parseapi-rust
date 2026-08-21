@@ -171,6 +171,7 @@ url_test!(
 	"/currency/USD/EUR"
 );
 url_test!(url_language, c => c.language("en"), "/language/en");
+url_test!(url_name_encodes_spaces, c => c.name("Smith, John"), "/name/Smith%2C%20John");
 url_test!(
 	url_timezone_encodes_slash,
 	c => c.timezone("America/New_York", None),

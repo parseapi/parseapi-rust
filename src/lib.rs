@@ -490,6 +490,11 @@ impl Client {
 		self.get(&format!("/language/{}", seg(code)), Query::new(), None).await
 	}
 
+	/// Parses a person's name into its parts.
+	pub async fn name(&self, name: &str) -> Result<Name> {
+		self.get(&format!("/name/{}", seg(name)), Query::new(), None).await
+	}
+
 	/// Returns the daily official reference rate for a currency pair.
 	pub async fn currency_rate(&self, base: &str, quote: &str) -> Result<CurrencyRate> {
 		self.get(&format!("/currency/{}/{}", seg(base), seg(quote)), Query::new(), None).await
